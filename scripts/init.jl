@@ -1,8 +1,8 @@
 using Suppressor
 
-# @suppress begin
+@suppress begin
 map(x->include("$(pwd())/modules/$x"), readdir("$(pwd())/modules"))
-# end
+end
 
 using Ripser, RTDA, MNISTPlot, Learn, TSne, ProgressMeter, JLD
 
