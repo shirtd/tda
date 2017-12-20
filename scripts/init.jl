@@ -1,6 +1,9 @@
 using Suppressor
 
-@suppress begin map(x->include("$(pwd())/modules/$x"), readdir("$(pwd())/modules")) end
+# @suppress begin
+map(x->include("$(pwd())/modules/$x"), readdir("$(pwd())/modules"))
+# end
+
 using Ripser, RTDA, MNISTPlot, Learn, TSne, ProgressMeter, JLD
 
 const Q = Int(floor(N/K))
