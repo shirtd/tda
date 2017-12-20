@@ -1,5 +1,3 @@
-__precompile__()
-
 module Ripser
 
 using ProgressMeter
@@ -15,7 +13,6 @@ const lower = Dict{Symbol,Function}(:matrix=>(M)->[[M[i,j] for j=1:i-1] for i=1:
 		:points=>(P)->[[sqrt(2*size(P)[1]/(size(P)[1]+1))/2*norm(P[:,i] - P[:,j]) for j=1:i-1] for i=1:size(P)[2]],
 		:rc_points=>(P)->[[_rc*norm(P[:,i] - P[:,j]) for j=1:i-1] for i=1:size(P)[2]])
 
-# ripsin = Dict(T=>(D)->replace("$(lower[T](D))","], [",",\n")[26:end-2] for T in keys(lower))
 ripsin = Dict(T=>(D->join("$(join("$d," for d in r ))\n" for r in lower[T](D))) for T in keys(lower))
 run!(e,s) = (println(e[2],s); close(e[2]); readstring(e[1]))
 ripser!(D,T=:points;dim=1) = run!(readandwrite(`ripser --dim $dim`),ripsin[T](D))

@@ -9,15 +9,15 @@ ARG_s = ArgParseSettings("bottleneck distance tSNE tests on MNIST data")
         arg_type = Int
         help = "diagram dimensions"
     "--DIM","-d"
-        default = 2
+        default = 3
         arg_type = Int
         help = "tSNE dimension"
     "--N","-n"
-        default = 1000
+        default = 5000
         arg_type = Int
         help = "total number of samples (MAX 60K)"
     "--K","-k"
-        default = 1
+        default = 5
         arg_type = Int
         help = "diagrams per digit (class)"
     # OPTIONS

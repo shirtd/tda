@@ -53,15 +53,12 @@ function save!(D,S,suff="";name=NAME,folder=DIR,plot=false)#plots="$DIR/plots")
     mkpath(folder)
     dat_file = "$folder/$name.jld"
     print("saving data as $dat_file")
-    @time save(dat_file,"data",D,"stats",S)
+    save(dat_file,"data",D,"stats",S)
 end
 
 function raw!()
     if RUN[:raw]
         println("\n$raw_title")
-        # n = Int(floor(N/K))
-        # datas = [DATA[n*(i-1)+1:n*i,:] for i=1:K]
-        # labels = [LABELS[n*(i-1)+1:n*i] for i=1:K]
         d_raw = run!(datas,labels)
         scatter!(ax[1],d_raw[:P],d_raw[:L],title=raw_title)
         s_raw = tests!(d_raw,raw_title)
@@ -77,8 +74,6 @@ function ktsne!()
         println("\n$tsne_title")
         n = Int(floor(N/K))
         println("$K $n pt. t-SNEs")
-        # datas = [DATA[n*(i-1)+1:n*i,:] for i=1:K]
-        # labels = [LABELS[n*(i-1)+1:n*i] for i=1:K]
         tsnes = tsnes!(datas)
         d_tsne = run!(tsnes,labels)
         scatter!(ax[2],d_tsne[:P],d_tsne[:L],title=tsne_title)

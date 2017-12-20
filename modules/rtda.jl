@@ -1,5 +1,3 @@
-__precompile__()
-
 module RTDA
 
 using RCall, ProgressMeter
@@ -16,25 +14,10 @@ library(TDA)
 
 empty(x) = sum(map(length,values(x))) == 0
 
-# d_bcode(R,dim) = (bcode = R[:barcode][dim]; [dim*ones(size(bcode)[1]) bcode])
-# d_bcodes(R,dims) = vcat([d_bcode(R,d) for d in dims]...)
-# d_bcodes(R) = vcat([d_bcode(R,d) for d in values(R)]...)
 d_bcode(R,d) = (b = R[:barcode][d]; length(b) == 0 ? [d 0.0 0.0] : [d*ones(size(b)[1]) b])
 d_bcodes(R) = vcat([d_bcode(R,d) for d in keys(R[:barcode])]...)#filter(x->!empty(R[:barcode][x]),keys(R[:barcode]))]...)
 
-
-# function filter_dims(bcode,dims=DIMS)
-#     for d in dims
-#         B = bcode[:barcode]
-#         if !(d in keys(B)) || length(B[d]) == 0
-#             return false
-#         end
-#     end
-#     true
-# end
-
 function filter_bcodes(R,L,dims=DIMS)
-    # filt = filter(x->filter_dims(R[x],dims), 1:length(R))
     filt = filter(x->(!empty(R[x][:barcode])),1:length(R))
     R[filt],L[filt]
 end
@@ -76,22 +59,22 @@ function l2_mat(S)
 end
 
 function bottleneck!(R1, R2; dims=DIMS)
-    try
+    # try
         bcode1,bcode2 = map(x->d_bcodes(x),(R1,R2))
         R"""
         bottleneck_d <- bottleneck($bcode1, $bcode2, dimension=$dims)
         """
-    catch err
-        for R in (R1,R2)
-            println("\n\n --- BARCODES ---")
-            for key in keys(R[:barcode])
-                println("\n$key")
-                println(R[:barcode][key])
-            end
-        end
-        println(err)
-        exit()
-    end
+    # catch err
+    #     for R in (R1,R2)
+    #         println("\n\n --- BARCODES ---")
+    #         for key in keys(R[:barcode])
+    #             println("\n$key")
+    #             println(R[:barcode][key])
+    #         end
+    #     end
+    #     println(err)
+    #     exit()
+    # end
     @rget bottleneck_d
 end
 

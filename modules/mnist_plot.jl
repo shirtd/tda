@@ -1,5 +1,3 @@
-__precompile__()
-
 module MNISTPlot
 
 using MNIST
@@ -37,9 +35,7 @@ LABELS = [Int(l+1) for l in _LABELS[1:N]]
 DATA = rescale(_DATA[:, 1:N].')
 
 fig = plt.figure(1,figsize=(10,3))
-# ax = map(x->DIM > 2 ? plt.subplot(x, projection="3d") : plt.subplot(x),(121,122))
 ax = map(x->DIM > 2 ? plt.subplot(x, projection="3d") : plt.subplot(x),(131,132,133))
-# map(x->x[:axis]("equal"),ax)
 plt.tight_layout()
 
 function scatter!(axis,P,L;s=25,a=0.5,title=nothing)
